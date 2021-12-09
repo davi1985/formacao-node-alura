@@ -1,3 +1,5 @@
+![screenshot](assets/screenshot.png)
+
 # Formação NodeJS - Alura
 
 ## Cursos
