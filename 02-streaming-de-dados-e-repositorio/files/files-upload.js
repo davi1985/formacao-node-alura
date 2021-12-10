@@ -1,9 +1,5 @@
 const fs = require("fs");
 
-fs.readFile("./assets/dog.jpg", (error, buffer) => {
-  console.log("imagem buffered", buffer);
-
-  fs.writeFile("./assets/dog2.jpg", buffer, (error) => {
-    console.log("image rewrite");
-  });
-});
+fs.createReadStream("./assets/dog.jpg")
+  .pipe(fs.createWriteStream("./assets/dog-stream.jpg"))
+  .on("finish", () => console.log("stream image created"));
