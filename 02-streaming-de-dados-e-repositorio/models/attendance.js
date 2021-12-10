@@ -1,4 +1,74 @@
+const moment = require("moment");
 const { default: axios } = require("axios");
+// const connection = require("../database/connection");
+const AttendanceRepository = require("../repositories/attendance-repository");
+
+class Attendance {
+  getAll() {
+    return AttendanceRepository.getAll();
+  }
+
+  create(attendance) {
+    const { attendance_date, created_at } = this._createDateWithMoment(
+      attendance.attendance_date
+    );
+
+    const errors = this._validationAttendance(
+      attendance_date,
+      created_at,
+      attendance.client
+    );
+
+    const hasErrors = errors.length;
+
+    if (hasErrors) {
+      return new Promise((resolve, reject) => reject(errors));
+    } else {
+      const attendanceDated = { ...attendance, created_at, attendance_date };
+
+      return AttendanceRepository.create(attendanceDated).then((results) => {
+        const id = results.insertId;
+
+        return { ...attendance, id };
+      });
+    }
+  }
+
+  _createDateWithMoment(date) {
+    const created_at = new Date();
+    const attendance_date = moment(date, "DD/MM/YYYY").format(
+      "YYYY-MM-DD HH:MM:SS"
+    );
+
+    return { created_at, attendance_date };
+  }
+
+  _validationAttendance(attendance_date, created_at, client) {
+    const validDate = moment(attendance_date).isSameOrAfter(created_at);
+    const validClient = client.length > 4;
+
+    const validations = [
+      {
+        name: "attendance_date",
+        valid: validDate,
+        message: "Date must be greater than or equal to current date",
+      },
+      {
+        name: "name",
+        valid: validClient,
+        message: "The customer name must be more than 4 letters",
+      },
+    ];
+
+    const errors = validations.filter((field) => !field.valid);
+
+    return errors;
+  }
+}
+
+module.exports = new Attendance();
+
+/*const { default: axios } = require("axios");
 const moment = require("moment");
 const connection = require("../database/connection");
 
@@ -112,3 +182,4 @@ class Attendance {
 }
 
 module.exports = new Attendance();
+*/
