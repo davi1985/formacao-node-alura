@@ -4,7 +4,7 @@
 
 ## Cursos
 - [x] Rest com NodeJS: API com Express e MySQL
-- [ ] NodeJS: Streaming de dados e Repositório
+- [x] NodeJS: Streaming de dados e Repositório
 - [ ] NodeJS: Crie uma API REST padronizada e escalável
 - [ ] NodeJS: Avançando em APIs REST com controle de versões
 - [ ] ORM com NodeJS: API com Sequelize e MySQL
