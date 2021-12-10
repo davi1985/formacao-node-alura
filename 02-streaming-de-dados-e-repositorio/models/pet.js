@@ -1,5 +1,5 @@
 const connection = require("../database/connection");
-const uploadFiles = require("../files/uploadFiles");
+const uploadFiles = require("../database/files/uploadFiles");
 
 class Pet {
   create(pet, res) {
